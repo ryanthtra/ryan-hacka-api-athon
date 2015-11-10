@@ -5,7 +5,6 @@ var APPLE_KEY = '4291af049e7b51ff411bc39565109ce6';
 var APPLE_SECRET = '08d3df2f4f1d7f62';
 
 
-
 /**
  * COPY AND PASTE this skeleton function when you make a new Apple API
  * DO NOT fill in the blanks for this skeleton
@@ -41,6 +40,69 @@ function AppleAPI_Skeleton()
     this.api_success = function(result)
     {
 
+    };
+
+
+    /**
+     * api_error
+     * Enter the stuff you want to do when the API returns a failed response.
+     * @param result - The object that is returned from the response (typically a JSON object)
+     */
+    this.api_error = function(result)
+    {
+
+    };
+
+
+    /**
+     * Add your own helper functions below.
+     */
+}
+
+
+function AppleAPI_GetTopMovies()
+{
+    /**
+     * Enter the URL for this API
+     * @type - string URL
+     */
+    this.api_url = 'http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/json';
+
+
+
+    /**
+     * Enter the data object properties below.
+     * These are the key/value parameters you pass like in Postman.
+     * @type - object
+     */
+    this.api_data = {};
+
+
+    /**
+     * api_success
+     * Enter the stuff you want to do when the API returns a successful response.
+     * @param result - The object that is returned from the response (typically a JSON object)
+     */
+    this.api_success = function(result)
+    {
+        console.log('AJAX Success function called, with the following result:', result);
+
+        // Feature Set #2
+        var movie_info = result.feed.entry[0];
+
+        // Feature Set #3
+        var movie_entries = result.feed.entry;
+        for (var i = 0; i < movie_entries.length; i++)
+        {
+            var new_image = $('<img>').attr('src', movie_entries[i]["im:image"][2]['label']);
+
+            // Feature Set #4
+            var name = $('<p>').text(movie_entries[i]["im:name"]["label"]);
+            var director = $('<p>').text('Directed by: ' + movie_entries[i]["im:artist"]["label"]);
+            var movie_span = $('<div>').append(new_image, name, director, $('<hr>'));
+
+            $('#main').append(movie_span);
+        }
     };
 
 

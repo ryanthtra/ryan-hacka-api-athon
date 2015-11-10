@@ -41,7 +41,6 @@ function makeAjaxGetJsonCall(api_object)
             method: 'GET',
             dataType: 'json',
             url: api_object.api_url,
-            data: api_object.api_data,
             success: function(result)
             {
                 api_object.api_success(result);
