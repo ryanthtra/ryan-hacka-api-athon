@@ -89,8 +89,9 @@ function AppleAPI_GetTopMovies()
      */
     this.api_success = function(result)
     {
-        this.listMoviesSideBySide(result);
-        this.listMoviesWithDirector(result);
+        $('#main').html('');  // Clears out the inner HTML for the #main div.
+        //this.layout_array[0](result);
+        this.selected_layout_function(result);
     };
 
 
@@ -105,8 +106,9 @@ function AppleAPI_GetTopMovies()
     };
 
 
+
     /**
-     * Add your own helper functions below.
+     * Add your own helper functions and other data below.
      */
     this.listMoviesWithDirector = function(result)
     {
@@ -147,5 +149,24 @@ function AppleAPI_GetTopMovies()
 
             $('#main').append(movie_span);
         }
+    };
+
+    /**
+     * These variables an methods are used to selecting the success function
+     *  for this API object.
+     * @type {null}
+     */
+    // This is the variable that will hold the function we use in the success function.
+    this.selected_layout_function = null;
+    // This is the object (key/value array) holding the function names we created above.
+    this.layouts_object =
+        {
+            list: this.listMoviesWithDirector,
+            'side-by-side': this.listMoviesSideBySide
+        };
+    // This is the function we're using for the radio buttons when one of them is clicked.
+    this.selectLayout = function(layout_name)
+    {
+        this.selected_layout_function = this.layouts_object[layout_name];
     };
 }
