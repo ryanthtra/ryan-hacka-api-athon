@@ -60,6 +60,10 @@ function AppleAPI_Skeleton()
 }
 
 
+/**
+ * AppleAPI_GetTopMovies
+ * @constructor - gets the top 10 movies
+ */
 function AppleAPI_GetTopMovies()
 {
     /**
@@ -85,6 +89,27 @@ function AppleAPI_GetTopMovies()
      */
     this.api_success = function(result)
     {
+        this.listMoviesSideBySide(result);
+        this.listMoviesWithDirector(result);
+    };
+
+
+    /**
+     * api_error
+     * Enter the stuff you want to do when the API returns a failed response.
+     * @param result - The object that is returned from the response (typically a JSON object)
+     */
+    this.api_error = function(result)
+    {
+
+    };
+
+
+    /**
+     * Add your own helper functions below.
+     */
+    this.listMoviesWithDirector = function(result)
+    {
         console.log('AJAX Success function called, with the following result:', result);
 
         // Feature Set #2
@@ -105,19 +130,22 @@ function AppleAPI_GetTopMovies()
         }
     };
 
-
-    /**
-     * api_error
-     * Enter the stuff you want to do when the API returns a failed response.
-     * @param result - The object that is returned from the response (typically a JSON object)
-     */
-    this.api_error = function(result)
+    this.listMoviesSideBySide = function(result)
     {
+        console.log('AJAX Success function called, with the following result:', result);
 
+        // Feature Set #2
+        var movie_info = result.feed.entry[0];
+
+        // Feature Set #3
+        var movie_entries = result.feed.entry;
+        for (var i = 0; i < movie_entries.length; i++)
+        {
+            var new_image = $('<img>').attr('src', movie_entries[i]["im:image"][2]['label']);
+
+            var movie_span = $('<span>').append(new_image);
+
+            $('#main').append(movie_span);
+        }
     };
-
-
-    /**
-     * Add your own helper functions below.
-     */
 }
